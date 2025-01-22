@@ -1,22 +1,29 @@
 class NumMatrix {
 public:
-    long long prefRow[201][201];
+    int pref[201][201];
     NumMatrix(vector<vector<int>>& matrix) {
-        for (int i = 0; i < matrix.size(); i++) {
-            prefRow[i][0] = 1LL* matrix[i][0];
-            for (int j = 1; j < matrix[0].size(); j++) {
-                prefRow[i][j] = prefRow[i][j - 1] + 1LL* matrix[i][j];
+        memset(pref , 0 , sizeof(pref));
+        for(int i = 0 ; i<matrix.size();i++){
+            for(int j = 0 ; j<matrix[0].size();j++)
+                pref[i+1][j+1] = matrix[i][j];
+        }
+
+        for(int i = 1 ; i< 201; i++){
+            for(int j = 2 ; j < 201;j++){
+                pref[i][j] += pref[i][j-1];
             }
         }
+        for(int i = 2 ; i<201 ; i++){
+            for(int j = 1 ; j<201;j++){
+                pref[i][j]+=pref[i-1][j];
+            }
+        }
+
     }
 
-    int sumRegion(int row1, int col1, int row2, int col2) {
-        long long ans = 0;
-        for (int i = row1; i <= row2; i++) {
-            ans += col1 == 0 ? prefRow[i][col2]
-                             : prefRow[i][col2] - prefRow[i][col1 - 1];
-        }
-        return ans;
+    long long sumRegion(int row1, int col1, int row2, int col2) {
+       row1++ , row2++,col1++,col2++;
+        return pref[row2][col2] - pref[row1-1][col2] - pref[row2][col1-1] + pref[row1-1][col1-1];
     }
 };
 
