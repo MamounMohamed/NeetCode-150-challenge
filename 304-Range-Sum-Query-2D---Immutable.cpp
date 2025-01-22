@@ -8,13 +8,13 @@ public:
                 pref[i+1][j+1] = matrix[i][j];
         }
 
-        for(int i = 1 ; i< 201; i++){
-            for(int j = 2 ; j < 201;j++){
+        for(int i = 1 ; i< matrix.size()+1; i++){
+            for(int j = 2 ; j < matrix[0].size()+1;j++){
                 pref[i][j] += pref[i][j-1];
             }
         }
-        for(int i = 2 ; i<201 ; i++){
-            for(int j = 1 ; j<201;j++){
+        for(int i = 2 ; i<matrix.size()+1 ; i++){
+            for(int j = 1 ; j<matrix[0].size()+1;j++){
                 pref[i][j]+=pref[i-1][j];
             }
         }
